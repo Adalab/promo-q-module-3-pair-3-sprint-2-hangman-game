@@ -12,6 +12,7 @@ import Header from './Header';
 import Dummy from './Dummy';
 import SolutionLetters from './SolutionLetters';
 import ErrorLetters from './ErrorLetters';
+import Form from './Form';
 
 function App() {
   const [word, setWord] = useState('');
@@ -26,43 +27,12 @@ function App() {
 
   // events
 
-  const handleKeyDown = (ev) => {
-    // Sabrías decir para qué es esta línea
-    ev.target.setSelectionRange(0, 1);
-  };
-
-  const handleChange = (ev) => {
-    let re = /[a-zA-Z]/; //add regular pattern - lesson 3.3 exercise 2
-    if (re.test(ev.target.value)) {
-      handleLastLetter(ev.target.value);
-    }
-  };
-
-  const handleSubmit = (ev) => {
-    ev.preventDefault();
-  };
-
   const getNumberOfErrors = () => {
     const errorLetters = userLetters.filter(
       (letter) => word.includes(letter) === false
     );
     return errorLetters.length;
   };
-
-
-  /* const renderErrorLetters = () => {
-    const errorLetters = userLetters.filter(
-      (letter) =>
-        word.toLocaleLowerCase().includes(letter.toLocaleLowerCase()) === false
-    );
-    return errorLetters.map((letter, index) => {
-      return (
-        <li key={index} className='letter'>
-          {letter}
-        </li>
-      );
-    });
-  }; */
 
   const handleLastLetter = (value) => {
     value = value.toLocaleLowerCase();
@@ -73,42 +43,29 @@ function App() {
       setUserLetters([...userLetters]);
     }
   };
+  const handleChange = (ev) => {
+    let re = /[a-zA-Z]/; //add regular pattern - lesson 3.3 exercise 2
+    if (re.test(ev.target.value)) {
+      handleLastLetter(ev.target.value);
+    }
+  };
 
   return (
     <div className='page'>
-      <Header/>
+      <Header />
       <main className='main'>
         <section>
           <SolutionLetters
             word={word}
-            userLetters ={userLetters}
+            userLetters={userLetters}
           />
-          <ErrorLetters userLetters= {userLetters}
-          word={word} />
-          {/* <div className='error'>
-            <h2 className='title'>Letras falladas:</h2>
-            <ul className='letters'>{renderErrorLetters()}</ul>
-          </div> */}
-          <form className='form' onSubmit={handleSubmit}>
-            <label className='title' htmlFor='last-letter'>
-              Escribe una letra:
-            </label>
-            <input
-              autoFocus
-              autoComplete='off'
-              className='form__input'
-              maxLength='1'
-              type='text'
-              name='last-letter'
-              id='last-letter'
-              value={lastLetter}
-              onKeyDown={handleKeyDown}
-              onChange={handleChange}
-            />
-          </form>
+          <ErrorLetters userLetters={userLetters}
+            word={word} />
+
+          <Form lastLetter={lastLetter} handleChange={handleChange} />
         </section>
-        <Dummy numberOfErrors= {getNumberOfErrors()}/>
-  
+        <Dummy numberOfErrors={getNumberOfErrors()} />
+
       </main>
     </div>
   );
