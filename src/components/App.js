@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import PropTypes from 'prop-types';
 
 // api
 import getWordFromApi from '../services/api';
@@ -8,14 +9,17 @@ import '../styles/Dummy.scss';
 import '../styles/Letters.scss';
 import '../styles/Form.scss';
 import '../styles/Header.scss';
- import Header from './Header';
-/*import Dummy from './Dummy';
+import Header from './Header';
+import Dummy from './Dummy';
 import SolutionLetters from './SolutionLetters';
 import ErrorLetters from './ErrorLetters';
-import Form from './Form'; */
+import Form from './Form';
 import Footer from './Footer';
 import { Route, Routes } from 'react-router-dom';
 import Main from './Main';
+import Instructions from './Instructions';
+import Options from './Options';
+import Loading from './Loading';
 
 
 function App() {
@@ -25,7 +29,9 @@ function App() {
 
   useEffect(() => {
     getWordFromApi().then((word) => {
+      setIsLoading(false);
       setWord(word);
+
     });
   }, []);
 
@@ -53,23 +59,38 @@ function App() {
       handleLastLetter(ev.target.value);
     }
   };
+  const handleForm = (word) => {
+    setWord(word);
+  }
+
+  // Loading 
+
+  const [isLoading, setIsLoading] = useState(true);
 
   return (
     <div className='page'>
       <Routes>
-        <Route path="/" element={<Header />}  /> */
-        <Route path="/instructions" element={<Main
-          word={word}
-          userLetters={userLetters}
-          lastLetter={lastLetter}
-          handleChange={handleChange}
-          numberOfErrors={getNumberOfErrors}
-        />}/>
-       </Routes>    
-          
-      <Footer/>
-     
-    </div>
+
+        <Route path="/" element={
+          <>
+            <Loading isLoading={isLoading} />
+            <Header />
+            <Main
+              word={word}
+              userLetters={userLetters}
+              lastLetter={lastLetter}
+              handleChange={handleChange}
+              numberOfErrors={getNumberOfErrors}
+            />
+            <Footer />
+          </>}></Route>
+        <Route path="/instructions" element={<><Instructions /><Dummy /><Footer /></>}></Route>
+        <Route path="/options" element={<><Options setWord={setWord} handleForm={handleForm} /><Dummy /><Footer /></>}></Route>
+      </Routes>
+
+
+
+    </div >
   );
 }
 

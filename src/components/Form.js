@@ -1,3 +1,5 @@
+import PropTypes from 'prop-types';
+
 function Form(props) {
 
     const handleSubmit = (ev) => {
@@ -24,6 +26,11 @@ function Form(props) {
             onChange={props.handleChange}
         />
     </form>)
+}
+
+Form.propTypes = {
+    lastLetter: PropTypes.string,
+    handleChange: PropTypes.func,
 }
 
 export default Form;
