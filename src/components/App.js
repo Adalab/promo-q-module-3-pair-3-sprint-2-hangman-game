@@ -8,11 +8,15 @@ import '../styles/Dummy.scss';
 import '../styles/Letters.scss';
 import '../styles/Form.scss';
 import '../styles/Header.scss';
-import Header from './Header';
-import Dummy from './Dummy';
+ import Header from './Header';
+/*import Dummy from './Dummy';
 import SolutionLetters from './SolutionLetters';
 import ErrorLetters from './ErrorLetters';
-import Form from './Form';
+import Form from './Form'; */
+import Footer from './Footer';
+import { Route, Routes } from 'react-router-dom';
+import Main from './Main';
+
 
 function App() {
   const [word, setWord] = useState('');
@@ -52,21 +56,19 @@ function App() {
 
   return (
     <div className='page'>
-      <Header />
-      <main className='main'>
-        <section>
-          <SolutionLetters
-            word={word}
-            userLetters={userLetters}
-          />
-          <ErrorLetters userLetters={userLetters}
-            word={word} />
-
-          <Form lastLetter={lastLetter} handleChange={handleChange} />
-        </section>
-        <Dummy numberOfErrors={getNumberOfErrors()} />
-
-      </main>
+      <Routes>
+        <Route path="/" element={<Header />}  /> */
+        <Route path="/instructions" element={<Main
+          word={word}
+          userLetters={userLetters}
+          lastLetter={lastLetter}
+          handleChange={handleChange}
+          numberOfErrors={getNumberOfErrors}
+        />}/>
+       </Routes>    
+          
+      <Footer/>
+     
     </div>
   );
 }
